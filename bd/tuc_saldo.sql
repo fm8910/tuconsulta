@@ -1,39 +1,36 @@
--- phpMyAdmin SQL Dump
--- version 4.0.7
--- http://www.phpmyadmin.net
---
--- Host: mysql1.alwaysdata.com
--- Generation Time: Mar 25, 2014 at 07:41 PM
--- Server version: 5.1.66-0+squeeze1
--- PHP Version: 5.3.6-11
+/*
+MySQL Backup
+Source Server Version: 5.6.16
+Source Database: tuc_saldo
+Date: 26/03/2014 15:33:39
+*/
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET FOREIGN_KEY_CHECKS=0;
 
+-- ----------------------------
+--  Table structure for `contador`
+-- ----------------------------
+DROP TABLE IF EXISTS `contador`;
+CREATE TABLE `contador` (
+  `numero_tarjeta` varchar(8) NOT NULL,
+  `contador` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  PRIMARY KEY (`numero_tarjeta`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `tuc_saldo`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `historial`
---
-
-CREATE TABLE IF NOT EXISTS `historial` (
+-- ----------------------------
+--  Table structure for `historial`
+-- ----------------------------
+DROP TABLE IF EXISTS `historial`;
+CREATE TABLE `historial` (
   `id_historial` int(11) NOT NULL AUTO_INCREMENT,
   `numero_tarjeta` varchar(8) DEFAULT NULL,
-  `saldo` decimal(10,0) NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `saldo` decimal(5,2) NOT NULL,
+  `fecha` datetime NOT NULL,
   PRIMARY KEY (`id_historial`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- ----------------------------
+--  Records 
+-- ----------------------------
+

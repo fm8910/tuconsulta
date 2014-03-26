@@ -11,6 +11,7 @@
 			$("#consultar").click(function(event) {
 				tarjeta= $("#codigo").val();
 				if(tarjeta.length==8 && tarjeta.length!=0){
+					 $("#consultar").attr("disabled","disabled");
 						$.ajax({
     url: 'proxy.php',
     type: 'POST',
@@ -18,7 +19,8 @@
     	codigo: tarjeta
     },
     success: function(response) {
-       $("#result").html(response.Mensaje);
+       $("#result").html(response);
+       $("#consultar").removeAttr("disabled");
     },
     error: function() {
         alert('Not OKay');
@@ -27,7 +29,8 @@
 			});
 				}else {
 					alert("Ingrese un numero de tarjeta valido");
-					$("#codigo").val(" ");
+					$("#codigo").val("");
+
 				}
 			
 			});

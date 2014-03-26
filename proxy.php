@@ -1,5 +1,6 @@
 <?php 
-
+require_once('clases/Coneccion.php');
+require_once('clases/funciones.php');
 $json= file_get_contents("https://mpeso.net/datos/captcha.php");
 $js= json_decode($json,true);
 $postdata = http_build_query(
@@ -20,6 +21,13 @@ $opts = array('http' =>
 $context  = stream_context_create($opts);
 
 $result = file_get_contents('https://mpeso.net/datos/consulta.php', false, $context);
-header('Content-Type: application/json');
-echo $result;
+$array= json_decode($result,true);
+$tm=strlen($array["Mensaje"]);
+$saldo= substr($array["Mensaje"],35,$tm-4);
+
+$GLOBALS['funciones']->ingresar($_POST["codigo"],$saldo);
+$GLOBALS['funciones']->contadorVisitas($_POST["codigo"]);
+
+echo $array["Mensaje"] ;
+
  ?>
