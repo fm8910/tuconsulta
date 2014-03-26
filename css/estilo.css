@@ -1,0 +1,82 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@font-face {
+	font-family: 'bpicons';
+	src:url('../fonts/bpicons/bpicons.eot');
+	src:url('../fonts/bpicons/bpicons.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/bpicons/bpicons.woff') format('woff'),
+		url('../fonts/bpicons/bpicons.ttf') format('truetype'),
+		url('../fonts/bpicons/bpicons.svg#bpicons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+} /* Made with http://icomoon.io/ */
+*{
+
+	margin: 0;
+}
+body, html { 
+	font-size: 100%;
+	padding: 0; margin: 0;
+	background:#FFFFFF;
+	font-family: 'Lato', Calibri, Arial, sans-serif;
+	color: #757575;
+}
+legend{
+	font-size: 20px;
+	color: #f78e1e;
+	text-align: center;
+}
+img{
+	vertical-align: middle;
+}
+fieldset{
+	border: 2px solid #0067b1;
+	border-radius: 10px;
+}
+input[type="text"] {
+width: 135px;
+height: 30px!important;
+text-align: center;
+border: 1px solid #0067b1;
+border-radius: 5px;
+margin-left: 8px;
+}
+#consultar{
+	background: #0067b1;
+	
+	color: white;
+	height: 40px;
+	width: 100px;
+	}
+#form{
+	width: 90%;
+}
+#result{
+
+	background: #f78e1e;
+	border-radius: 40px 0 0px 40px;
+	-webkit-box-shadow: -6px 8px 12px 0px rgba(71, 69, 60, 0.57);
+	-moz-box-shadow:    -6px 8px 12px 0px rgba(71, 69, 60, 0.57);
+	box-shadow:         -6px 8px 12px 0px rgba(71, 69, 60, 0.57);
+	color: white;
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 40%;
+	height: 50px;
+	text-align: center;
+	font-weight: 300;
+	font-size: 20px;
+	padding-top: 40px;
+}
+.contenedor{
+	background: rgba(196, 196, 196, 0.51);
+	margin: 0 auto;
+	max-width: 1000px;
+}
+.centrar{
+	padding-top: 100px;
+	padding-bottom: 100px;
+	padding-right: 20px;
+	padding-left: 20px;
+	margin: 0 auto;
+	width: 100%;
+}
