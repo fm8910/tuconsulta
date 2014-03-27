@@ -24,10 +24,12 @@ $result = file_get_contents('https://mpeso.net/datos/consulta.php', false, $cont
 $array= json_decode($result,true);
 $tm=strlen($array["Mensaje"]);
 $saldo= substr($array["Mensaje"],35,$tm-4);
-
+$err= $array["Error"];
+if ($err) {
+   echo "No es un numero Tuc valido";
+}else{
 $GLOBALS['funciones']->ingresar($_POST["codigo"],$saldo);
 $GLOBALS['funciones']->contadorVisitas($_POST["codigo"]);
-
 echo $array["Mensaje"] ;
-
+}
  ?>

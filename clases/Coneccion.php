@@ -20,6 +20,19 @@ class Coneccion{
 
         mysql_query("SET names UTF8");
 	}
+	  function getAll($query) {
+        if (! $query)
+            return array();
+      
+        $res = $this->ejecutar($query);
+        $arr_res = array();
+        if ($res) {
+            while ($row = mysql_fetch_array($res))
+                $arr_res[] = $row;
+            mysql_free_result($res);
+        }
+        return $arr_res;
+    }
 	function getOne($query, $index = 0) {
         if (! $query)
             return false;
@@ -63,7 +76,7 @@ class Coneccion{
 	function lastId() {
         return mysql_insert_id($this->vEnlace);
     }
-    
+
 }
 $GLOBALS['Coneccion'] = new Coneccion();
 
