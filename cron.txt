@@ -1,1 +1,2 @@
-36 13-03 * * * /usr/bin/php -q www/tuconsulta/clases/cron.php
+MAILTO=fm8910@gmail.com
+25 13-03 * * * /usr/bin/php -q www/tuconsulta/clases/cron.php >/dev/null

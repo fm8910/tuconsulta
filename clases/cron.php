@@ -6,6 +6,6 @@ $numero= $GLOBALS['Coneccion']->getAll("SELECT numero_tarjeta from contador ORDE
 foreach ($numero as $i => $valor) {
 	$GLOBALS['funciones']->consultar($valor["numero_tarjeta"]);
 }
-
+$GLOBALS['funciones']->cron();
 
  ?>

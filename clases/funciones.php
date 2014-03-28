@@ -30,6 +30,13 @@ class funciones
   }
         
 }
+function cron(){
+  $sSQL = "
+                    INSERT INTO `crontable` SET 
+                    `fecha` = NOW()
+                ";
+    $GLOBALS['Coneccion']->ejecutar($sSQL);
+}
 function contadorVisitas($codigo){
      $contador= $GLOBALS['Coneccion']->getOne("SELECT contador FROM `contador` WHERE `numero_tarjeta`='{$codigo}'");
      if($contador==null){
