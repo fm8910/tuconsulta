@@ -6,14 +6,14 @@ class funciones
 {
  
   function ingresar($codigo,$saldo){
-  $ultimoid= $GLOBALS['Coneccion']->getOne("SELECT id_historial FROM `historial` WHERE `numero_tarjeta`='{$codigo}' and `saldo`='{$saldo}' ORDER BY id_historial DESC limit 1");
+  $ultimoid= $GLOBALS['Coneccion']->getOne("SELECT id_historial FROM `historial` WHERE `numero_tarjeta`='{$codigo}' ORDER BY id_historial DESC limit 1");
   if ($ultimoid==null) {
       $ultimoid=0;
        $sSQL = "
                     INSERT INTO `historial` SET 
                     `numero_tarjeta` = '{$codigo}',
                     `saldo` = '{$saldo}',
-                    `fecha` = NOW()
+                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
                 ";
     $GLOBALS['Coneccion']->ejecutar($sSQL);
     }else{
@@ -23,7 +23,7 @@ class funciones
                     INSERT INTO `historial` SET 
                     `numero_tarjeta` = '{$codigo}',
                     `saldo` = '{$saldo}',
-                    `fecha` = NOW()
+                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
                 ";
     $GLOBALS['Coneccion']->ejecutar($sSQL);
     }
@@ -33,7 +33,7 @@ class funciones
 function cron(){
   $sSQL = "
                     INSERT INTO `crontable` SET 
-                    `fecha` = NOW()
+                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
                 ";
     $GLOBALS['Coneccion']->ejecutar($sSQL);
 }
@@ -46,7 +46,7 @@ function contadorVisitas($codigo){
                     INSERT INTO `contador` SET 
                     `numero_tarjeta` = '{$codigo}',
                     `contador` = '{$c}',
-                    `fecha` = NOW()
+                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
                 ";
          $GLOBALS['Coneccion']->ejecutar($sSQL);   
      } else{
@@ -54,7 +54,7 @@ function contadorVisitas($codigo){
         $sSQL= "
                     UPDATE `contador` SET 
                     `contador` = '{$c}',
-                    `fecha` = NOW() where `numero_tarjeta`='{$codigo}'
+                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' ) where `numero_tarjeta`='{$codigo}'
                 ";
          $GLOBALS['Coneccion']->ejecutar($sSQL);
      }

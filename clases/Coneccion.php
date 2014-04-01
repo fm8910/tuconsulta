@@ -11,10 +11,10 @@ class Coneccion{
 
 	 function Coneccion(){
 		$this->gDbNombre="tuc_saldo";
-		$this->gDbUsuario="root";
-		$this->gDbContra="tda123";
+		$this->gDbUsuario="tuc";
+		$this->gDbContra="Faciltda123";
 
-		$this->vEnlace= mysql_connect("localhost", $this->gDbUsuario, $this->gDbContra);
+		$this->vEnlace= mysql_connect("mysql1.alwaysdata.com", $this->gDbUsuario, $this->gDbContra);
 
 		mysql_select_db($this->gDbNombre, $this->vEnlace);
 
