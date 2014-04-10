@@ -12,7 +12,7 @@ class Coneccion{
 	 function Coneccion(){
 		$this->gDbNombre="tuc_saldo";
 		$this->gDbUsuario="tuc";
-		$this->gDbContra="Faciltda123";
+		$this->gDbContra="";
 
 		$this->vEnlace= mysql_connect("mysql1.alwaysdata.com", $this->gDbUsuario, $this->gDbContra);
 
@@ -75,6 +75,9 @@ class Coneccion{
 	}
 	function lastId() {
         return mysql_insert_id($this->vEnlace);
+    }
+    function close(){
+        
     }
 
 }

@@ -7,27 +7,31 @@ class funciones
  
   function ingresar($codigo,$saldo){
   $ultimoid= $GLOBALS['Coneccion']->getOne("SELECT id_historial FROM `historial` WHERE `numero_tarjeta`='{$codigo}' ORDER BY id_historial DESC limit 1");
+  $ultimosaldo= $GLOBALS['Coneccion']->getOne("SELECT saldo FROM `historial` WHERE `numero_tarjeta`='{$codigo}'  and id_historial='{$ultimoid}' ORDER BY fecha DESC limit 1");
   if ($ultimoid==null) {
       $ultimoid=0;
-       $sSQL = "
-                    INSERT INTO `historial` SET 
-                    `numero_tarjeta` = '{$codigo}',
-                    `saldo` = '{$saldo}',
-                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
-                ";
-    $GLOBALS['Coneccion']->ejecutar($sSQL);
-    }else{
-  $resultado= $GLOBALS['Coneccion']->getOne("SELECT id_historial FROM `historial` WHERE `numero_tarjeta`='{$codigo}' and `saldo`='{$saldo}' and id_historial='{$ultimoid}' ORDER BY fecha DESC limit 1");
-  if($resultado==0){
       $sSQL = "
                     INSERT INTO `historial` SET 
                     `numero_tarjeta` = '{$codigo}',
                     `saldo` = '{$saldo}',
+                    `balance` = '{$saldo}',
                     `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
                 ";
     $GLOBALS['Coneccion']->ejecutar($sSQL);
     }
-  }
+   
+      if ((abs(($ultimosaldo-$saldo)/$saldo) > 0.00001) and $ultimosaldo!=null) {
+      $bl= $saldo - $ultimosaldo;
+      $sSQL = "
+                    INSERT INTO `historial` SET 
+                    `numero_tarjeta` = '{$codigo}',
+                    `saldo` = '{$saldo}',
+                    `balance` = '{$bl}',
+                    `fecha` = CONVERT_TZ( NOW( ) ,  '+02:00',  '-06:00' )
+                ";
+    $GLOBALS['Coneccion']->ejecutar($sSQL);
+    }
+  
         
 }
 function cron(){

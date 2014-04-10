@@ -5,21 +5,81 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Historial saldo</title>
 	<link rel="stylesheet" href="css/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
-    <script type="text/javascript" src="js/jqxcore.js"></script>
-    <script type="text/javascript" src="js/jqxdata.js"></script>
-    <script type="text/javascript" src="js/jqxchart.js"></script>
-    <script type="text/javascript">
-	$(document).ready(function () {
-		var source =
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/jqx.bootstrap.css" media="screen">
+	<script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
+			<!-- Bootstrap JavaScript -->
+      <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript" src="js/jqxcore.js"></script>
+<script type="text/javascript" src="js/jqxdata.js"></script>
+<script type="text/javascript" src="js/jqxchart.js"></script>
+<script type="text/javascript" src="js/jqxcalendar.js"></script>
+<script type="text/javascript" src="js/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="js/jqxtooltip.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	var d = new Date();
+                var month = d.getMonth()+1;
+                var day1 = d.getDate()-7;
+                var day2 = d.getDate();
+
+                var date1 = d.getFullYear() + '/' +
+                (month<10 ? '0' : '') + month + '/' +
+                (day1<10 ? '0' : '') + day1;
+                
+                var date2 = d.getFullYear() + '/' +
+                (month<10 ? '0' : '') + month + '/' +
+                (day2<10 ? '0' : '') + day2;
+
+	$("#jqxWidget").jqxDateTimeInput({ min: new Date(2014, 2, 1), max: date2,width: 300, height: 30,  selectionMode: 'range', theme: 'bootstrap' });
+    $("#jqxWidget").jqxDateTimeInput({ formatString: 'dd/MM/yyyy'});
+    $('#btnHist').click(function() {
+        var selection = $("#jqxWidget").jqxDateTimeInput('getRange');
+            if (selection.from != null) {
+            	 var json;
+          		tuc=$('#Ntuc').val();
+           		fec1=$('#inputjqxWidget').val();
+           		if (tuc.length==8 && tuc.length!=0) {
+                $.ajax({
+              	url: 'clases/data.php',
+              	type: 'POST',
+                data: {
+                codigo: tuc,
+                fecha1:fec1
+                },
+                success: function(response) {
+                 // $('#chartContainer').html(response);
+                json= response;
+                if(json!=undefined){
+                	grafico(json);
+                }
+                },
+                error: function() {
+                    alert('Not OKay');
+                }
+
+            });
+                
+	}else{ alert("Ingrese un numero de Tarjeta");}
+                    }
+        });
+                              
+                
+                $("#jqxWidget").jqxDateTimeInput('setRange', date1, date2);
+		
+			function grafico(jsonp){
+	    var source =
 		{
 			 datatype: "json",
 			 datafields: [
 				 { name: 'saldo'},
-				 { name: 'fecha',type: 'date'}
+				 { name: 'fecha', type: 'date'},
 				 
 			],
-			url: 'clases/data.php'
+			localdata: jsonp
 		};
 
 	   var dataAdapter = new $.jqx.dataAdapter(source,
@@ -30,40 +90,40 @@
 			loadComplete: function () { },
 			loadError: function () { }
 		});
-
 	 // prepare jqxChart settings
 		var settings = {
-			title: "Ordenar por Fecha",
+			title: "Historial saldo",
 			showLegend: true,
 			padding: { left: 5, top: 5, right: 5, bottom: 5 },
 			titlePadding: { left: 90, top: 0, right: 0, bottom: 10 },
 			source: dataAdapter,
 			categoryAxis:
 				{
-					text: 'Category Axis',
+					text: 'Historial saldo',
 					textRotationAngle: 0,
 					dataField: 'fecha',
 					formatFunction: function (value) {
 						return $.jqx.dataFormat.formatdate(value, 'dd/MM/yyyy');
 					},
-					showTickMarks: true,
-					tickMarksInterval: Math.round(dataAdapter.records.length / 6),
-					tickMarksColor: '#888888',
-					unitInterval: Math.round(dataAdapter.records.length / 6),
-					showGridLines: true,
-					gridLinesInterval: Math.round(dataAdapter.records.length / 3),
-					gridLinesColor: '#888888',
-					axisSize: 'auto'
+					    showTickMarks: true,
+                        valuesOnTicks: false,
+                        tickMarksInterval: 1,
+                        tickMarksColor: '#888888',
+                        unitInterval: 1,
+                        gridLinesInterval: 1,
+                        gridLinesColor: '#888888',
+                        axisSize: 'auto'
 				},
-			colorScheme: 'scheme05',
+			colorScheme: 'scheme01',
 			seriesGroups:
 				[
 					{
 						type: 'line',
+						showLabels: true,
 						valueAxis:
 						{
 							displayValueAxis: true,
-							description: 'saldo',
+							description: 'Saldo',
 							//descriptionClass: 'css-class-name',
 							axisSize: 'auto',
 							tickMarksColor: '#888888',
@@ -72,18 +132,50 @@
 							maxValue: 100
 						},
 						series: [
-								{ dataField: 'saldo', displayText: 'Saldo' }
+								{ dataField: 'saldo', displayText: 'saldo', symbolType: 'square'}
 						  ]
 					}
 				]
 		};
-
-		// setup the chart
-		$('#jqxChart').jqxChart(settings);
+		$('#chartContainer').jqxChart(settings);
+}
 	});
 </script>
 </head>
 <body >
-	<div style="width:800px; height:400px" id="jqxChart"></div>
+	<div class="hist">
+       <div class="panel panel-danger">
+                    <div class="panel-heading">  <span class="glyphicon glyphicon-stats"> 
+                    </span>  Historial</div>
+            
+                 <div class="panel-body">
+
+                      <div class="col-md-4"> 
+                     <div class="input-group">
+                        <span class="input-group-addon">   <span class="glyphicon glyphicon-phone"></span> </span>
+                       <input id="Ntuc" type="text" name="Ntuc" class="form-control" placeholder="Numero Tuc...">
+                        </div>
+                    </div>
+
+                   <div class="col-md-4"> 
+                       <div id='jqxWidget'>
+
+        				</div>
+						
+                    </div>   
+                            <div class="col-md-2"> 
+                        <button id="btnHist" type="button" class="btn btn-info  btn-block">Buscar</button>
+                        </div> 
+                        <br>
+                        <br>
+                        <br>
+                        
+                    <div class="col-md-8"> 
+                     <div style="height:400px" id='chartContainer'</div>
+                   </div> 
+              
+                 </div>
+            </div> 
+</div>
 </body>
 </html>

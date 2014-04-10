@@ -3087,7 +3087,7 @@ of the horizontal scrollbar.*/
 }
 .jqx-icon-calendar, .jqx-icon-calendar-hover, .jqx-icon-calendar-pressed
 {
-    background-image: url('images/icon-calendar.png');
+    background-image: url('../img/icon-calendar.png');
     background-repeat: no-repeat;
     background-position: left top;
     position: relative;
